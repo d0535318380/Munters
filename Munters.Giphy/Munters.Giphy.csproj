@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentValidation" />
+      <PackageReference Include="LightResults" />
       <PackageReference Include="Mapster" />
       <PackageReference Include="MediatR" />
       <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />

@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AIRequestHandler_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FUsers_003FAndrey_0020Dyachenko_003FAppData_003FRoaming_003FJetBrains_003FRider2026_002E1_003Fresharper_002Dhost_003FSourcesCache_003Fd56d3de37e59803d15fefbde1e1deb7b45cc3a3d8b10fdf5ef9b471b3fc346d_003FIRequestHandler_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fe6f9c47_002D0a60_002D4519_002Db68a_002D6de68d72f529/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test1Async" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::615F5E71-BE1F-47CD-A315-D05EEDE8C5A6::net10.0::Munters.Giphy.Tests.GiphyApiClientTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::615F5E71-BE1F-47CD-A315-D05EEDE8C5A6::net10.0::Munters.Giphy.Tests.GiphyHandlersTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

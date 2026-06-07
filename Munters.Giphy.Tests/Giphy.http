@@ -1,5 +1,5 @@
 ﻿### GET Search
-GET https://api.giphy.com/v1/gifs/search?api_key=Emzgikb7MikRc0NEKZR59QRrw6f9EpmS&q=123&limit=100000
+GET https://api.giphy.com/v1/gifs/search?api_key=Emzgikb7MikRc0NEKZR59QRrw6f9EpmS&q=GrindCoin&limit=100000
 
 ### GET Trending
 GET https://api.giphy.com/v1/gifs/trending?api_key=Emzgikb7MikRc0NEKZR59QRrw6f9EpmS&limit=25
