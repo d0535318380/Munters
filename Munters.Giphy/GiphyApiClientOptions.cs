@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Munters.Giphy.Models;
+namespace Munters.Giphy;
 
 public sealed class GiphyApiClientOptions
 {

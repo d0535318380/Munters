@@ -1,25 +1,26 @@
-﻿using MediatR;
+﻿using LightResults;
+using Munters.Giphy.Abstractions;
 using Munters.Giphy.Handlers;
 
 namespace Munters.Host.Api.Extensions;
 
-public static class GiphyEndpoinsBuilder
+internal static class GiphyEndpoinsBuilder
 {
     public static IEndpointRouteBuilder MapGiphyEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/trending", async (IMediator mediator) =>
+        endpoints.MapGet("/trending", async (IRequestHandler<TrendingQuery, Result<SearchQueryResult>> handler, CancellationToken cancellationToken) =>
         {
-            var result = await mediator.Send(TrendingQuery.Default).ConfigureAwait(false);
+            var result = await handler.HandleAsync(TrendingQuery.Default, cancellationToken).ConfigureAwait(false);
     
-            return result.IsSuccess(out var value) ? Results.Ok(value) : Results.BadRequest();
+            return result.IsSuccess(out var value) ? Results.Ok(value.Items) : Results.BadRequest();
         });
 
-        endpoints.MapGet("/search/{text}", async (string text, IMediator mediator) =>
+        endpoints.MapGet("/search/{text}", async (string text, IRequestHandler<SearchQuery, Result<SearchQueryResult>> handler, CancellationToken cancellationToken) =>
         {
             var query = new SearchQuery(text);
-            var result = await mediator.Send(query).ConfigureAwait(false);
+            var result = await handler.HandleAsync(query, cancellationToken).ConfigureAwait(false);
     
-            return result.IsSuccess(out var value) ? Results.Ok(value) : Results.BadRequest();
+            return result.IsSuccess(out var value) ? Results.Ok(value.Items) : Results.BadRequest();
         });
         
         return endpoints;

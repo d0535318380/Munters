@@ -1,10 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Munters.Giphy.Abstractions;
 using Munters.Giphy.Client;
-using Munters.Giphy.Models;
+using Munters.Giphy.Handlers;
 using Refit;
 
 namespace Munters.Giphy;
@@ -24,16 +20,6 @@ public static class GiphyServiceBuilder
     public static IServiceCollection AddGiphyServices(this IServiceCollection services)
     {
         services
-            .AddOptions<GiphyApiClientOptions>()
-            .Configure<IConfiguration>((options, configuration) =>
-            {
-                configuration
-                    .GetSection(nameof(GiphyApiClientOptions))
-                    .Bind(options);
-            })
-            .ValidateOnStart();
-
-        services
             .AddTransient<GiphyAuthHandler>()
             .AddRefitClient<IGiphyApiClient>(RefitSettings)
             .ConfigureHttpClient((sp, client) =>
@@ -44,7 +30,22 @@ public static class GiphyServiceBuilder
             .AddHttpMessageHandler<GiphyAuthHandler>()
             ;
 
-        services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<GiphyApiClientOptions>());
+        services.Scan(scan => scan
+            .FromAssemblyOf<GiphyApiClientOptions>()
+            .AddClasses(classes => classes.AssignableTo(typeof(IRequestHandler<,>)))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime()
+            );
+        
+        services
+            .AddOptions<GiphyApiClientOptions>()
+            .Configure<IConfiguration>((options, configuration) =>
+            {
+                configuration
+                    .GetSection(nameof(GiphyApiClientOptions))
+                    .Bind(options);
+            })
+            .ValidateOnStart();
 
         services
             .AddLogging()
@@ -53,6 +54,11 @@ public static class GiphyServiceBuilder
         services
             .AddHttpClient()
             .ConfigureHttpClientDefaults(opts => opts.AddStandardResilienceHandler());
+
+        services
+            .AddMapster();
+        TypeAdapterConfig.GlobalSettings.NewConfig<SearchResponse, SearchQueryResult>()
+            .Map(dest => dest.Items, src => src.Data);
 
         return services;
     }

@@ -1,20 +1,18 @@
 ﻿using LightResults;
-using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Munters.Giphy.Abstractions;
 
-public abstract partial class QueryHandlerBase<TRequest, TResponse> : IQueryHandler<TRequest, Result<TResponse>>
-    where TRequest : IRequest<Result<TResponse>>
+public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, Result<TResponse>>
 {
     private readonly ILogger _logger;
 
-    protected QueryHandlerBase(ILoggerFactory loggerFactory)
+    protected RequestHandlerBase(ILoggerFactory loggerFactory)
     {
         _logger = loggerFactory.CreateLogger(GetType());
     }
 
-    public async Task<Result<TResponse>> Handle(TRequest request, CancellationToken cancellationToken)
+    public async Task<Result<TResponse>> HandleAsync(TRequest request, CancellationToken cancellationToken = default)
     {
         LogStartHandling(typeof(TRequest).Name);
         

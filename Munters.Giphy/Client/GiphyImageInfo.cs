@@ -1,4 +1,4 @@
-﻿namespace Munters.Giphy.Models;
+﻿namespace Munters.Giphy.Client;
 
 public record GiphyImageInfo(
     string Height,

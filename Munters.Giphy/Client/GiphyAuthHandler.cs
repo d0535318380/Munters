@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Options;
-using Munters.Giphy.Models;
 
 namespace Munters.Giphy.Client;
 
