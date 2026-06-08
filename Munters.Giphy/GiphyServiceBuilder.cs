@@ -57,6 +57,7 @@ public static class GiphyServiceBuilder
 
         services
             .AddMapster();
+        
         TypeAdapterConfig.GlobalSettings.NewConfig<SearchResponse, SearchQueryResult>()
             .Map(dest => dest.Items, src => src.Data);
 

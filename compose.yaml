@@ -1,0 +1,25 @@
+﻿services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+
+  munters.host.api:
+    image: munters.host.api
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    build:
+      context: .
+      dockerfile: Munters.Host.Api/Dockerfile
+    depends_on:
+      - redis
+    environment:
+      - ConnectionStrings__Redis=redis:6379
+
+volumes:
+  redis-data:
+
