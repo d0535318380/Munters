@@ -16,7 +16,7 @@ This project was developed as part of a Back-End C# Developer Exam. It demonstra
 
 - **Language:** C# 14.0
 - **Framework:** ASP.NET Core 10.0
-- **Database/Cache:** Redis
+- **Database/Cache:** Redis 7.0 (Alpine)
 - **Package Manager:** NuGet (Central Package Management)
 - **Containerization:** Docker, Docker Compose
 - **API Documentation:** Scalar / OpenAPI
@@ -51,7 +51,7 @@ The API will be available at:
    ```
 
 2. **Configure Connection String:**
-   Ensure `RedisCacheOptions:ConnectionString` in `Munters.Host.Api/appsettings.json` points to your local Redis instance (default: `localhost:6379`).
+   Ensure `RedisCacheOptions:ConnectionString` in `Munters.Host.Api/appsettings.json` points to your local Redis instance (default: `localhost:6379`). 
 
 3. **Run the API:**
    ```powershell
@@ -62,13 +62,14 @@ The API will be available at:
 
 - **Build Solution:** `dotnet build`
 - **Run Tests:** `dotnet test`
+- **Clean Solution:** `dotnet clean`
 - **Publish:** `dotnet publish -c Release`
 - **Docker Build:** `docker build -t munters-giphy -f Munters.Host.Api/Dockerfile .`
 
 ## API Endpoints
 
-- `GET /trending`: Fetches URLs of the trending GIFs of the day.
-- `GET /search/{text}`: Searches for GIFs given a search term and returns their URLs.
+- `GET /trending`: Returns URLs of today's trending GIFs.
+- `GET /search/{text}`: Returns URLs of GIFs matching the search term.
 
 ## Environment Variables & Configuration
 
@@ -78,12 +79,16 @@ Configuration is managed via `appsettings.json` and can be overridden by environ
 |-----|-------------|---------|
 | `GiphyApiClientOptions:ApiKey` | API Key for Giphy | `Emzgikb7...` |
 | `GiphyApiClientOptions:BaseUrl` | Giphy API Base URL | `https://api.giphy.com` |
-| `RedisCacheOptions:ConnectionString` | Redis connection string | `https://localhost:6379` |
+| `GiphyApiClientOptions:SearchExpirationsInHours` | Cache TTL for search results | `24` |
+| `GiphyApiClientOptions:TrendingExpirationsInMinutes` | Cache TTL for trending results | `15` |
+| `RedisCacheOptions:ConnectionString` | Redis connection string | `localhost:6379` |
 | `RedisCacheOptions:InstanceName` | Redis instance name | `Munters.Host.Api` |
+
+*Note: When running via Docker Compose, `RedisCacheOptions__ConnectionStrings` is used to override the Redis connection.*
 
 ## Tests
 
-The solution includes a test project `Munters.Giphy.Tests`.
+The solution includes a test project `Munters.Giphy.Tests` with unit and integration tests.
 Run tests using:
 ```powershell
 dotnet test
@@ -91,17 +96,18 @@ dotnet test
 
 ## Project Structure
 
-- `Munters.Host.Api`: The entry point project (ASP.NET Core Web API).
-- `Munters.Giphy`: Core logic, handlers, and external API client.
-- `Munters.Giphy.Tests`: Unit and integration tests.
-- `Directory.Packages.props`: Central Package Management configuration.
-- `compose.yaml`: Docker Compose orchestration.
+- `Munters.Giphy`: Core logic, handlers, models, and Giphy API client.
+- `Munters.Host.Api`: ASP.NET Core Web API (Entry Point).
+- `Munters.Giphy.Tests`: Unit and integration tests using xUnit.
+- `Directory.Packages.props`: Central Package Management.
+- `compose.yaml`: Docker Compose configuration.
 
 ## TODOs
 - [ ] Implement UI for displaying GIFs (Bonus requirement).
+- [ ] Improve error handling for edge cases in API client.
 - [ ] Add more comprehensive integration tests.
 - [ ] Set up CI/CD pipeline.
 
 ## License
 
-TODO: Add license information.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details (TODO: add LICENSE file).

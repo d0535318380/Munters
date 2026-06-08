@@ -35,3 +35,5 @@ app.UseHttpsRedirection();
 app.MapGiphyEndpoints();
 
 await app.RunAsync().ConfigureAwait(false);
+
+public partial class Program { protected Program() { } }

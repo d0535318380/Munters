@@ -11,7 +11,7 @@ public class GiphyApiClientTests(GiphyTestFixture fixture) : IClassFixture<Giphy
     {
         var client = fixture.Services.GetRequiredService<IGiphyApiClient>();
         
-        var result = await client.TrendingAsync(TrendingRequest.Default);
+        var result = await client.TrendingAsync(TrendingRequest.Default, CancellationToken.None);
         
         result.ShouldNotBeNull();
     }
@@ -20,7 +20,7 @@ public class GiphyApiClientTests(GiphyTestFixture fixture) : IClassFixture<Giphy
     public async Task SearchTestAsync()
     {
         var client = fixture.Services.GetRequiredService<IGiphyApiClient>();
-        var result = await client.SearchAsync(new SearchRequest("GrindCoin"));
+        var result = await client.SearchAsync(new SearchRequest("GrindCoin"), CancellationToken.None);
         
         result.ShouldNotBeNull();
         result.Data.ShouldNotBeEmpty();

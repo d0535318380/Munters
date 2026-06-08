@@ -18,7 +18,7 @@
     depends_on:
       - redis
     environment:
-      - ConnectionStrings__Redis=redis:6379
+      - RedisCacheOptions__ConnectionStrings=redis:6379
 
 volumes:
   redis-data:
