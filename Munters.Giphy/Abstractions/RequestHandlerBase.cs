@@ -1,5 +1,4 @@
 ﻿using LightResults;
-using Microsoft.Extensions.Logging;
 
 namespace Munters.Giphy.Abstractions;
 
@@ -15,17 +14,17 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
     public async Task<Result<TResponse>> HandleAsync(TRequest request, CancellationToken cancellationToken = default)
     {
         LogStartHandling(typeof(TRequest).Name);
-        
+
         try
         {
             var result = await ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
-            
+
             return Result.Success(result);
         }
         catch (Exception ex)
         {
             LogErrorHandling(typeof(TRequest).Name, ex);
-            
+
             return Result.Failure<TResponse>(ex);
         }
         finally
@@ -35,7 +34,7 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
     }
 
     protected abstract Task<TResponse> ExecuteAsync(TRequest request, CancellationToken cancellationToken);
-    
+
     [LoggerMessage(LogLevel.Information, "Start handling query {QueryType}")]
     partial void LogStartHandling(string queryType);
 

@@ -6,7 +6,8 @@
     volumes:
       - redis-data:/data
     command: redis-server --appendonly yes
-
+    restart: always
+  
   munters.host.api:
     image: munters.host.api
     ports:
@@ -18,7 +19,7 @@
     depends_on:
       - redis
     environment:
-      - RedisCacheOptions__ConnectionStrings=redis:6379
+      - RedisCacheOptions__ConnectionString=redis:6379
 
 volumes:
   redis-data:

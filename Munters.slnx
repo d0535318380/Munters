@@ -1,12 +1,14 @@
 <Solution>
-  <Folder Name="/.build/">
-    <File Path="compose.yaml" />
-    <File Path="Directory.Build.props" />
-    <File Path="Directory.Packages.props" />
-    <File Path="Munters-Back-End-Developer-Exam.md" />
-    <File Path="README.md" />
-  </Folder>
-  <Project Path="Munters.Giphy.Tests/Munters.Giphy.Tests.csproj" />
-  <Project Path="Munters.Giphy/Munters.Giphy.csproj" />
-  <Project Path="Munters.Host.Api/Munters.Host.Api.csproj" />
+    <Folder Name="/.build/">
+        <File Path="compose.yaml"/>
+        <File Path="Directory.Build.props"/>
+        <File Path="Directory.Packages.props"/>
+    </Folder>
+    <Folder Name="/.docs/">
+        <File Path="Munters-Back-End-Developer-Exam.md"/>
+        <File Path="README.md"/>
+    </Folder>
+    <Project Path="Munters.Giphy.Tests/Munters.Giphy.Tests.csproj"/>
+    <Project Path="Munters.Giphy/Munters.Giphy.csproj"/>
+    <Project Path="Munters.Host.Api/Munters.Host.Api.csproj"/>
 </Solution>

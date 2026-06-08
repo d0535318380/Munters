@@ -7,13 +7,18 @@ using Testcontainers.Redis;
 namespace Munters.Giphy.Tests;
 
 [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope")]
+[CollectionDefinition(nameof(IntegrationTestsCollection))]
+public class IntegrationTestsCollection : ICollectionFixture<GiphyApiIntegrationFixture>
+{
+}
+
 public class GiphyApiIntegrationFixture : IAsyncLifetime
 {
     private readonly RedisContainer _redisContainer = new RedisBuilder()
         .WithImage("redis:7.0")
         .Build();
 
-    public  WebApplicationFactory<Program> Factory { get; private set; } = null!;
+    public WebApplicationFactory<Program> Factory { get; private set; } = null!;
 
     public async ValueTask InitializeAsync()
     {

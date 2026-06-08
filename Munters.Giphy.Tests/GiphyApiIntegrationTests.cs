@@ -2,7 +2,8 @@
 
 namespace Munters.Giphy.Tests;
 
-public class GiphyApiIntegrationTests(GiphyApiIntegrationFixture fixture) : IClassFixture<GiphyApiIntegrationFixture>
+[Collection(nameof(IntegrationTestsCollection))]
+public class GiphyApiIntegrationTests(GiphyApiIntegrationFixture fixture)
 {
     [Fact]
     public async Task TrendingSuccessTest()
@@ -28,7 +29,7 @@ public class GiphyApiIntegrationTests(GiphyApiIntegrationFixture fixture) : ICla
 
         // Assert
         response.EnsureSuccessStatusCode();
-        
+
         var content = await response.Content.ReadAsStringAsync(CancellationToken.None);
         content.ShouldNotBeNullOrEmpty();
     }

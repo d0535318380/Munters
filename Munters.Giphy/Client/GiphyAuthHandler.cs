@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Options;
-
 namespace Munters.Giphy.Client;
 
 public class GiphyAuthHandler : DelegatingHandler
@@ -9,14 +7,15 @@ public class GiphyAuthHandler : DelegatingHandler
     public GiphyAuthHandler(IOptions<GiphyApiClientOptions> options)
     {
         ArgumentNullException.ThrowIfNull(options);
-        
+
         _options = options.Value;
     }
-    
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
-        
+
         if (request.RequestUri is not null)
         {
             var uriBuilder = new UriBuilder(request.RequestUri);

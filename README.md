@@ -1,16 +1,19 @@
 ﻿# Munters Giphy Integration API
 
-A .NET 10 Web API that integrates with the Giphy API to fetch trending GIFs and search for GIFs by term. The application includes a caching mechanism using Redis to optimize performance and reduce redundant API calls.
+A .NET 10 Web API that integrates with the Giphy API to fetch trending GIFs and search for GIFs by term. The application
+includes a caching mechanism using Redis to optimize performance and reduce redundant API calls.
 
 ## Overview
 
 This project was developed as part of a Back-End C# Developer Exam. It demonstrates:
+
 - Integration with external APIs (Giphy).
 - Caching strategies using Redis.
 - Clean Architecture principles and SOLID design.
 - Asynchronous programming and safe concurrent operations.
 - Containerization with Docker and Docker Compose.
 - API documentation with Scalar.
+- Health Monitoring.
 
 ## Stack
 
@@ -38,9 +41,11 @@ docker compose up --build
 ```
 
 The API will be available at:
+
 - HTTP: `http://localhost:8080`
 - HTTPS: `https://localhost:8081`
 - API Documentation (Scalar): `http://localhost:8080/scalar/v1`
+- Health Checks: `http://localhost:8080/hc`
 
 ### Running Locally
 
@@ -51,7 +56,8 @@ The API will be available at:
    ```
 
 2. **Configure Connection String:**
-   Ensure `RedisCacheOptions:ConnectionString` in `Munters.Host.Api/appsettings.json` points to your local Redis instance (default: `localhost:6379`). 
+   Ensure `RedisCacheOptions:ConnectionString` in `Munters.Host.Api/appsettings.json` points to your local Redis
+   instance (default: `127.0.0.1:6379,abortConnect=false`).
 
 3. **Run the API:**
    ```powershell
@@ -68,41 +74,46 @@ The API will be available at:
 
 ## API Endpoints
 
-- `GET /trending`: Returns URLs of today's trending GIFs.
-- `GET /search/{text}`: Returns URLs of GIFs matching the search term.
+- `GET /trending`: Returns an array of URLs for today's trending GIFs.
+- `GET /search/{text}`: Returns an array of URLs for GIFs matching the search term.
+- `GET /hc`: Health check endpoint providing status of the application and Redis connection.
 
 ## Environment Variables & Configuration
 
-Configuration is managed via `appsettings.json` and can be overridden by environment variables.
+Configuration is managed via `appsettings.json` and can be overridden by environment variables (e.g., using `__` as a
+separator for nested keys).
 
-| Key | Description | Default |
-|-----|-------------|---------|
-| `GiphyApiClientOptions:ApiKey` | API Key for Giphy | `Emzgikb7...` |
-| `GiphyApiClientOptions:BaseUrl` | Giphy API Base URL | `https://api.giphy.com` |
-| `GiphyApiClientOptions:SearchExpirationsInHours` | Cache TTL for search results | `24` |
-| `GiphyApiClientOptions:TrendingExpirationsInMinutes` | Cache TTL for trending results | `15` |
-| `RedisCacheOptions:ConnectionString` | Redis connection string | `localhost:6379` |
-| `RedisCacheOptions:InstanceName` | Redis instance name | `Munters.Host.Api` |
+| Key                                                  | Description                    | Default                             |
+|------------------------------------------------------|--------------------------------|-------------------------------------|
+| `GiphyApiClientOptions:ApiKey`                       | API Key for Giphy              | `Emzgikb7...`                       |
+| `GiphyApiClientOptions:BaseUrl`                      | Giphy API Base URL             | `https://api.giphy.com`             |
+| `GiphyApiClientOptions:SearchExpirationsInHours`     | Cache TTL for search results   | `24`                                |
+| `GiphyApiClientOptions:TrendingExpirationsInMinutes` | Cache TTL for trending results | `15`                                |
+| `RedisCacheOptions:ConnectionString`                 | Redis connection string        | `127.0.0.1:6379,abortConnect=false` |
+| `RedisCacheOptions:InstanceName`                     | Redis instance name            | `Munters.Host.Api`                  |
 
-*Note: When running via Docker Compose, `RedisCacheOptions__ConnectionStrings` is used to override the Redis connection.*
+*Note: When running via Docker Compose, `RedisCacheOptions__ConnectionString` is used to override the Redis connection
+to use the container name `redis`.*
 
 ## Tests
 
 The solution includes a test project `Munters.Giphy.Tests` with unit and integration tests.
 Run tests using:
+
 ```powershell
 dotnet test
 ```
 
 ## Project Structure
 
-- `Munters.Giphy`: Core logic, handlers, models, and Giphy API client.
+- `Munters.Giphy`: Core library containing logic, handlers, models, and the Giphy API client.
 - `Munters.Host.Api`: ASP.NET Core Web API (Entry Point).
-- `Munters.Giphy.Tests`: Unit and integration tests using xUnit.
-- `Directory.Packages.props`: Central Package Management.
-- `compose.yaml`: Docker Compose configuration.
+- `Munters.Giphy.Tests`: xUnit test project for unit and integration testing.
+- `Directory.Packages.props`: Central Package Management for NuGet packages.
+- `compose.yaml`: Docker Compose configuration for local development.
 
 ## TODOs
+
 - [ ] Implement UI for displaying GIFs (Bonus requirement).
 - [ ] Improve error handling for edge cases in API client.
 - [ ] Add more comprehensive integration tests.

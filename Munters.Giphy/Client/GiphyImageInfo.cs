@@ -5,5 +5,3 @@ public record GiphyImageInfo(
     string Width,
     string Size,
     Uri Url);
-    
-

@@ -7,17 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation" />
-      <PackageReference Include="LightResults" />
-      <PackageReference Include="Mapster" />
-      <PackageReference Include="Mapster.DependencyInjection" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />
-      <PackageReference Include="Microsoft.Extensions.Http" />
-      <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
-      <PackageReference Include="Microsoft.Extensions.Logging" />
-      <PackageReference Include="Refit" />
-      <PackageReference Include="Refit.HttpClientFactory" />
-      <PackageReference Include="Scrutor" />
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="LightResults"/>
+        <PackageReference Include="Mapster"/>
+        <PackageReference Include="Mapster.DependencyInjection"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.Hybrid"/>
+        <PackageReference Include="Microsoft.Extensions.Http"/>
+        <PackageReference Include="Microsoft.Extensions.Http.Resilience"/>
+        <PackageReference Include="Microsoft.Extensions.Logging"/>
+        <PackageReference Include="Refit"/>
+        <PackageReference Include="Refit.HttpClientFactory"/>
+        <PackageReference Include="Scrutor"/>
     </ItemGroup>
 
 </Project>
