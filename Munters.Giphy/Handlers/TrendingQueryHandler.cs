@@ -1,7 +1,5 @@
-﻿﻿using System.Collections.Concurrent;
- using Munters.Giphy.Abstractions;
+﻿using Munters.Giphy.Abstractions;
 using Munters.Giphy.Client;
-using Munters.Giphy.Models;
 
 namespace Munters.Giphy.Handlers;
 
@@ -40,56 +38,10 @@ public sealed class TrendingQueryHandler : RequestHandlerBase<TrendingQuery, Sea
     {
         var result = await _cache.GetOrCreateAsync(
                 $"{nameof(TrendingQueryHandler)}",
-                async ctx => await FetchAsync(ctx).ConfigureAwait(false),
+                async ctx => await _client.FetchTrendingPagesAsync(_options.MaxParallelRequests, ctx).ConfigureAwait(false),
                 _cacheOptions,
                 cancellationToken: cancellationToken)
             .ConfigureAwait(false);
-
-        return result;
-    }
-
-    private async ValueTask<SearchQueryResult> FetchAsync(CancellationToken ct)
-    {
-        var response = await _client.TrendingAsync(TrendingRequest.Default, ct).ConfigureAwait(false);
-
-        if (response.NotHasPages) return response.Adapt<SearchQueryResult>();
-
-        var result = await FetchPagesAsync(response, ct).ConfigureAwait(false);
-
-        return result;
-    }
-
-    private async ValueTask<SearchQueryResult> FetchPagesAsync(SearchResponse sourceResponse, CancellationToken ct)
-    {
-        var page = sourceResponse.Pagination;
-        var pageLimit = page.Count;
-
-        var requests = Enumerable.Range(1, page.PagesCount - 1)
-            .Select(i => new TrendingRequest(i * pageLimit, pageLimit))
-            .ToArray();
-
-        var responses = new ConcurrentBag<SearchResponse>() { sourceResponse };
-
-        await Parallel.ForEachAsync(requests,
-            new ParallelOptions
-            {
-                CancellationToken = ct,
-                MaxDegreeOfParallelism = _options.MaxParallelRequests
-            },
-            async (request, token) =>
-            {
-                var response = await _client.TrendingAsync(request, token).ConfigureAwait(false);
-                responses.Add(response);
-            }).ConfigureAwait(false);
-
-        var items = responses
-            .SelectMany(x => x.Data.Adapt<GiphyItemProjection[]>())
-            .ToArray();
-
-        var result = new SearchQueryResult
-        {
-            Items = items
-        };
 
         return result;
     }

@@ -12,7 +12,7 @@ public abstract record ApiRequestBase(
 
 public abstract record ApiResponseBase(MetaItem Meta, PaginationItem Pagination)
 {
-    public bool NotHasPages => Pagination.TotalCount == Pagination.Count;
+    public bool IsSinglePage => Pagination.TotalCount == Pagination.Count;
     public bool HasPages => Pagination.TotalCount > Pagination.Count;
 }
 

@@ -43,7 +43,7 @@ docker compose up --build
 The API will be available at:
 
 - HTTP: `http://localhost:8080`
-- HTTPS: `https://localhost:8081`
+- HTTPS: `https://localhost:8081` (Note: requires valid dev certificates)
 - API Documentation (Scalar): `http://localhost:8080/scalar/v1`
 - Health Checks: `http://localhost:8080/hc`
 
@@ -77,6 +77,7 @@ The API will be available at:
 - `GET /trending`: Returns an array of URLs for today's trending GIFs.
 - `GET /search/{text}`: Returns an array of URLs for GIFs matching the search term.
 - `GET /hc`: Health check endpoint providing status of the application and Redis connection.
+- `GET /scalar/v1`: Interactive API documentation.
 
 ## Environment Variables & Configuration
 
@@ -118,6 +119,7 @@ dotnet test
 - [ ] Improve error handling for edge cases in API client.
 - [ ] Add more comprehensive integration tests.
 - [ ] Set up CI/CD pipeline.
+- [ ] (TODO: add LICENSE file)
 
 ## License
 
